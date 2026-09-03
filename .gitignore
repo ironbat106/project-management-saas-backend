@@ -1,0 +1,15 @@
+node_modules
+.env
+.env.*
+!.env.example
+dist
+ 
+/src/generated/prisma
+ 
+# Lock Files
+pnpm-lock.yaml
+yarn.lock
+pnpm-workspace.yaml
+ 
+.vscode
+.DS_Store
