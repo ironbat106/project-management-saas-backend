@@ -1,0 +1,63 @@
+enum Role {
+  ADMIN // platform administrator (manages the whole SaaS platform)
+  OWNER // creates & owns an organization, manages billing and members
+  MEMBER // invited team member, works inside an organization
+}
+ 
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+ 
+enum AuthProvider {
+  CREDENTIAL
+  GOOGLE
+}
+ 
+enum SubscriptionPlan {
+  FREE
+  PRO
+  BUSINESS
+}
+ 
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  PAST_DUE
+  CANCELLED
+}
+ 
+enum ProjectStatus {
+  ACTIVE
+  ARCHIVED
+  COMPLETED
+}
+ 
+enum SprintStatus {
+  PLANNED
+  ACTIVE
+  COMPLETED
+}
+ 
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  IN_REVIEW
+  DONE
+}
+ 
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+ 
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+  REFUNDED
+}

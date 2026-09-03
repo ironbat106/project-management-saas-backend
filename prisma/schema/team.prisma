@@ -1,0 +1,36 @@
+model Team {
+  id   String @id @default(uuid())
+  name String
+ 
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
+  members  TeamMember[]
+  projects Project[]
+ 
+  // team names must be unique inside one organization
+  @@unique([organizationId, name], name: "unique_team_name")
+  @@index([organizationId])
+  @@map("teams")
+}
+ 
+model TeamMember {
+  id      String   @id @default(uuid())
+  addedAt DateTime @default(now())
+ 
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
+  @@unique([teamId, userId], name: "unique_team_member")
+  @@index([teamId])
+  @@map("team_members")
+}

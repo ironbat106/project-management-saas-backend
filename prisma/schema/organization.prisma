@@ -1,0 +1,52 @@
+model Organization {
+  id          String @id @default(uuid())
+  name        String
+  slug        String @unique // url friendly unique identifier, e.g. "acme-corp"
+  description String?
+ 
+  subscriptionPlan   SubscriptionPlan   @default(FREE)
+  subscriptionStatus SubscriptionStatus @default(ACTIVE)
+ 
+  stripeCustomerId     String? @unique
+  stripeSubscriptionId String? @unique
+ 
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  // relations
+  ownerId String
+  owner   User   @relation("OrganizationOwner", fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
+  members      OrganizationMember[]
+  teams        Team[]
+  projects     Project[]
+  payments     Payment[]
+  activityLogs ActivityLog[]
+ 
+  @@index([ownerId])
+  @@index([isDeleted])
+  @@map("organizations")
+}
+ 
+model OrganizationMember {
+  id       String   @id @default(uuid())
+  joinedAt DateTime @default(now())
+ 
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+ 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
+  // a user can only be added once to the same organization
+  @@unique([organizationId, userId], name: "unique_organization_member")
+  @@index([organizationId])
+  @@index([userId])
+  @@map("organization_members")
+}

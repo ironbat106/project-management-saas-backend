@@ -1,0 +1,30 @@
+model Project {
+  id          String        @id @default(uuid())
+  name        String
+  description String?
+  status      ProjectStatus @default(ACTIVE)
+ 
+  startDate DateTime?
+  endDate   DateTime?
+ 
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
+  teamId String?
+  team   Team?   @relation(fields: [teamId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+ 
+  sprints Sprint[]
+  tasks   Task[]
+ 
+  @@index([organizationId])
+  @@index([teamId])
+  @@index([status])
+  @@index([isDeleted])
+  @@map("projects")
+}
