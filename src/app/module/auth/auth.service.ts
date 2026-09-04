@@ -3,11 +3,12 @@ import httpStatus from "http-status";
 import type { SignOptions } from "jsonwebtoken";
 import config from "../../config/index.js";
 import { AuthProvider, Role, UserStatus } from "../../../generated/prisma/index.js";
+import { googleClient } from "../../lib/googleAuth.js";
 import { prisma } from "../../lib/prisma.js";
 import { redisClient } from "../../lib/redis.js";
 import { AppError } from "../../utils/AppError.js";
 import { jwtUtils } from "../../utils/jwt.js";
-import type { ILoginPayload, IRegisterPayload } from "./auth.interface.js";
+import type { IGoogleLoginPayload, ILoginPayload, IRegisterPayload } from "./auth.interface.js";
  
 const generateAuthTokens = (user: { id: string; name: string; email: string; role: Role }) => {
   const jwtPayload = {
@@ -115,12 +116,13 @@ const refreshToken = async (token: string) => {
  
   return generateAuthTokens(user);
 };
+ 
 
 const logout = async (token: string) => {
   const verified = jwtUtils.verifyToken(token, config.jwt_refresh_secret);
  
   if (!verified.success || !verified.data?.exp) {
-    // Already invalid/expired — nothing meaningful to blacklist.
+
     return null;
   }
  
@@ -135,9 +137,63 @@ const logout = async (token: string) => {
   return null;
 };
  
+
+const googleLogin = async (payload: IGoogleLoginPayload) => {
+  let ticketPayload;
+ 
+  try {
+    const ticket = await googleClient.verifyIdToken({
+      idToken: payload.idToken,
+      audience: config.google_client_id,
+    });
+    ticketPayload = ticket.getPayload();
+  } catch (error) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid or expired Google ID token");
+  }
+ 
+  if (!ticketPayload?.email || !ticketPayload.name) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Could not read email/name from Google account");
+  }
+ 
+  const email = ticketPayload.email.toLowerCase();
+ 
+  let user = await prisma.user.findUnique({ where: { email } });
+ 
+  if (!user) {
+
+    user = await prisma.user.create({
+      data: {
+        name: ticketPayload.name,
+        email,
+        googleId: ticketPayload.sub,
+        authProvider: AuthProvider.GOOGLE,
+        role: Role.OWNER,
+        status: UserStatus.ACTIVE,
+      },
+    });
+  } else {
+    if (user.isDeleted || user.status === UserStatus.DELETED) {
+      throw new AppError(httpStatus.FORBIDDEN, "This account has been deleted");
+    }
+    if (user.status === UserStatus.BLOCKED) {
+      throw new AppError(httpStatus.FORBIDDEN, "This account has been blocked. Please contact support.");
+    }
+
+    if (!user.googleId) {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: { googleId: ticketPayload.sub },
+      });
+    }
+  }
+ 
+  return generateAuthTokens(user);
+};
+ 
 export const AuthService = {
   register,
   login,
   refreshToken,
   logout,
+  googleLogin,
 };

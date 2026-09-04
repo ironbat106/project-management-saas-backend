@@ -21,4 +21,6 @@ router.post(
   AuthController.logout,
 );
  
+router.post("/google", authRateLimiter, validateRequest(AuthValidation.googleLoginZodSchema), AuthController.googleLogin);
+ 
 export const AuthRoutes = router;

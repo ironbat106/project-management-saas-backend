@@ -48,9 +48,21 @@ const logout = catchAsync(async (req: Request, res: Response) => {
   });
 });
  
+const googleLogin = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthService.googleLogin(req.body);
+ 
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Logged in with Google successfully",
+    data: result,
+  });
+});
+ 
 export const AuthController = {
   register,
   login,
   refreshToken,
   logout,
+  googleLogin,
 };
