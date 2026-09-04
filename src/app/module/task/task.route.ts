@@ -15,7 +15,9 @@ router.post(
 );
  
 router.get("/projects/:projectId/tasks", auth(Role.ADMIN, Role.OWNER, Role.MEMBER), TaskController.getTasks);
-
+ 
+// IMPORTANT: this must be registered BEFORE "/tasks/:id" below,
+// otherwise Express would treat "my-tasks" as an ":id" value.
 router.get("/tasks/my-tasks", auth(Role.ADMIN, Role.OWNER, Role.MEMBER), TaskController.getMyTasks);
  
 router.get("/tasks/:id", auth(Role.ADMIN, Role.OWNER, Role.MEMBER), TaskController.getSingleTask);
@@ -42,5 +44,23 @@ router.post(
 );
  
 router.delete("/tasks/:id", auth(Role.OWNER, Role.MEMBER), TaskController.deleteTask);
+ 
+router.post(
+  "/tasks/:id/subtasks",
+  auth(Role.OWNER, Role.MEMBER),
+  validateRequest(TaskValidation.createSubtaskZodSchema),
+  TaskController.createSubtask,
+);
+ 
+router.patch("/subtasks/:subtaskId", auth(Role.OWNER, Role.MEMBER), TaskController.toggleSubtask);
+ 
+router.post(
+  "/tasks/:id/comments",
+  auth(Role.OWNER, Role.MEMBER),
+  validateRequest(TaskValidation.createCommentZodSchema),
+  TaskController.createComment,
+);
+ 
+router.get("/tasks/:id/comments", auth(Role.ADMIN, Role.OWNER, Role.MEMBER), TaskController.getComments);
  
 export const TaskRoutes = router;

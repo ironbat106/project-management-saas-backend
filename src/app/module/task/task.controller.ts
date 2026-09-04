@@ -3,6 +3,8 @@ import httpStatus from "http-status";
 import type { RequestUser } from "../../middleware/checkAuth.js";
 import { catchAsync } from "../../utils/catchAsync.js";
 import { sendResponse } from "../../utils/sendResponse.js";
+import { CommentService } from "./comment.service.js";
+import { SubtaskService } from "./subtask.service.js";
 import { TaskService } from "./task.service.js";
  
 const createTask = catchAsync(async (req: Request, res: Response) => {
@@ -95,6 +97,51 @@ const deleteTask = catchAsync(async (req: Request, res: Response) => {
   });
 });
  
+const createSubtask = catchAsync(async (req: Request, res: Response) => {
+  const result = await SubtaskService.createSubtask(req.params.id, req.body.title, req.user as RequestUser);
+ 
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Subtask created successfully",
+    data: result,
+  });
+});
+ 
+const toggleSubtask = catchAsync(async (req: Request, res: Response) => {
+  const result = await SubtaskService.toggleSubtask(req.params.subtaskId, req.user as RequestUser);
+ 
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Subtask updated successfully",
+    data: result,
+  });
+});
+ 
+const createComment = catchAsync(async (req: Request, res: Response) => {
+  const result = await CommentService.createComment(req.params.id, req.body.content, req.user as RequestUser);
+ 
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Comment added successfully",
+    data: result,
+  });
+});
+ 
+const getComments = catchAsync(async (req: Request, res: Response) => {
+  const result = await CommentService.getComments(req.params.id, req.query, req.user as RequestUser);
+ 
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Comments fetched successfully",
+    data: result.data,
+    meta: result.meta,
+  });
+});
+ 
 export const TaskController = {
   createTask,
   getTasks,
@@ -104,4 +151,8 @@ export const TaskController = {
   updateTaskStatus,
   assignTask,
   deleteTask,
+  createSubtask,
+  toggleSubtask,
+  createComment,
+  getComments,
 };
