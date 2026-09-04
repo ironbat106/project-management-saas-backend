@@ -5,6 +5,7 @@ import { catchAsync } from "../../utils/catchAsync.js";
 import { sendResponse } from "../../utils/sendResponse.js";
 import { OrganizationService } from "./organization.service.js";
 import { OrganizationMemberService } from "./organizationMember.service.js";
+import { OrganizationStatsService } from "./organizationStats.service.js";
  
 const createOrganization = catchAsync(async (req: Request, res: Response) => {
   const result = await OrganizationService.createOrganization(req.body, req.user as RequestUser);
@@ -62,6 +63,17 @@ const deleteOrganization = catchAsync(async (req: Request, res: Response) => {
   });
 });
  
+const getDashboardStats = catchAsync(async (req: Request, res: Response) => {
+  const result = await OrganizationStatsService.getDashboardStats(req.params.id, req.user as RequestUser);
+ 
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Dashboard statistics fetched successfully",
+    data: result,
+  });
+});
+ 
 const inviteMember = catchAsync(async (req: Request, res: Response) => {
   const result = await OrganizationMemberService.inviteMember(req.params.id, req.body, req.user as RequestUser);
  
@@ -102,6 +114,7 @@ export const OrganizationController = {
   getSingleOrganization,
   updateOrganization,
   deleteOrganization,
+  getDashboardStats,
   inviteMember,
   getMembers,
   removeMember,

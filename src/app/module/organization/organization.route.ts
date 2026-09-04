@@ -27,6 +27,12 @@ router.patch(
  
 router.delete("/:id", auth(Role.ADMIN, Role.OWNER), OrganizationController.deleteOrganization);
  
+router.get(
+  "/:id/dashboard-stats",
+  auth(Role.ADMIN, Role.OWNER, Role.MEMBER),
+  OrganizationController.getDashboardStats,
+);
+ 
 router.post(
   "/:id/members",
   auth(Role.OWNER),
