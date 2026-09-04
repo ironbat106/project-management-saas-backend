@@ -4,6 +4,7 @@ import type { RequestUser } from "../../middleware/checkAuth.js";
 import { catchAsync } from "../../utils/catchAsync.js";
 import { sendResponse } from "../../utils/sendResponse.js";
 import { OrganizationService } from "./organization.service.js";
+import { OrganizationMemberService } from "./organizationMember.service.js";
  
 const createOrganization = catchAsync(async (req: Request, res: Response) => {
   const result = await OrganizationService.createOrganization(req.body, req.user as RequestUser);
@@ -61,10 +62,47 @@ const deleteOrganization = catchAsync(async (req: Request, res: Response) => {
   });
 });
  
+const inviteMember = catchAsync(async (req: Request, res: Response) => {
+  const result = await OrganizationMemberService.inviteMember(req.params.id, req.body, req.user as RequestUser);
+ 
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Member invited successfully",
+    data: result,
+  });
+});
+ 
+const getMembers = catchAsync(async (req: Request, res: Response) => {
+  const result = await OrganizationMemberService.getMembers(req.params.id, req.query, req.user as RequestUser);
+ 
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Members fetched successfully",
+    data: result.data,
+    meta: result.meta,
+  });
+});
+ 
+const removeMember = catchAsync(async (req: Request, res: Response) => {
+  await OrganizationMemberService.removeMember(req.params.id, req.params.memberId, req.user as RequestUser);
+ 
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Member removed successfully",
+    data: null,
+  });
+});
+ 
 export const OrganizationController = {
   createOrganization,
   getOrganizations,
   getSingleOrganization,
   updateOrganization,
   deleteOrganization,
+  inviteMember,
+  getMembers,
+  removeMember,
 };

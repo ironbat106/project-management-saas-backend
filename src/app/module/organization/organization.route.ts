@@ -27,4 +27,15 @@ router.patch(
  
 router.delete("/:id", auth(Role.ADMIN, Role.OWNER), OrganizationController.deleteOrganization);
  
+router.post(
+  "/:id/members",
+  auth(Role.OWNER),
+  validateRequest(OrganizationValidation.inviteMemberZodSchema),
+  OrganizationController.inviteMember,
+);
+ 
+router.get("/:id/members", auth(Role.ADMIN, Role.OWNER, Role.MEMBER), OrganizationController.getMembers);
+ 
+router.delete("/:id/members/:memberId", auth(Role.OWNER), OrganizationController.removeMember);
+ 
 export const OrganizationRoutes = router;
