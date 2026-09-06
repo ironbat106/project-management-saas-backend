@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { Role } from "../../generated/prisma/index.js";
+import { Role } from "@prisma/client";
 import { prisma } from "../lib/prisma.js";
 import type { RequestUser } from "../middleware/checkAuth.js";
 import { AppError } from "./AppError.js";

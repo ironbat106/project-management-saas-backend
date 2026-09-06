@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { Prisma, Role, SubscriptionPlan, SubscriptionStatus } from "../../../generated/prisma/index.js";
+import { Prisma, Role, SubscriptionPlan, SubscriptionStatus } from "@prisma/client";
 import type { IQuery } from "../../interfaces/index.js";
 import { buildPaginationOptions } from "../../interfaces/index.js";
 import { prisma } from "../../lib/prisma.js";

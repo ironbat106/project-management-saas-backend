@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { SprintStatus } from "../../../generated/prisma/index.js";
+import { SprintStatus } from "@prisma/client";
 import { buildPaginationOptions, type IQuery } from "../../interfaces/index.js";
 import { prisma } from "../../lib/prisma.js";
 import type { RequestUser } from "../../middleware/checkAuth.js";

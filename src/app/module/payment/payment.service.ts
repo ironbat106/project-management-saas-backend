@@ -1,7 +1,7 @@
 import httpStatus from "http-status";
 import type Stripe from "stripe";
 import config from "../../config/index.js";
-import { PaymentStatus, type Prisma, SubscriptionPlan, SubscriptionStatus } from "../../../generated/prisma/index.js";
+import { PaymentStatus, type Prisma, SubscriptionPlan, SubscriptionStatus } from "@prisma/client";
 import { buildPaginationOptions, type IQuery } from "../../interfaces/index.js";
 import { prisma } from "../../lib/prisma.js";
 import { stripe } from "../../lib/stripe.js";

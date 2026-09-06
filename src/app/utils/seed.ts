@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import config from "../config/index.js";
-import { Role } from "../../generated/prisma/index.js";
+import { Role } from "@prisma/client";
 import { prisma } from "../lib/prisma.js";
  
 async function seedAdmin() {

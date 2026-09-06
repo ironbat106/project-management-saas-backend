@@ -1,4 +1,4 @@
-import type { TaskPriority, TaskStatus } from "../../../generated/prisma/index.js";
+import type { TaskPriority, TaskStatus } from "@prisma/client";
  
 export interface ICreateTaskPayload {
   title: string;

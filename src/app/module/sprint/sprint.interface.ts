@@ -1,4 +1,4 @@
-import type { SprintStatus } from "../../../generated/prisma/index.js";
+import type { SprintStatus } from "@prisma/client";
  
 export interface ICreateSprintPayload {
   name: string;

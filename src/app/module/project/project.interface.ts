@@ -1,4 +1,4 @@
-import type { ProjectStatus } from "../../../generated/prisma/index.js";
+import type { ProjectStatus } from "@prisma/client";
  
 export interface ICreateProjectPayload {
   name: string;

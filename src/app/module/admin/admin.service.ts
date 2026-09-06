@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { Prisma, Role, SubscriptionPlan, UserStatus } from "../../../generated/prisma/index.js";
+import { Prisma, Role, SubscriptionPlan, UserStatus } from "@prisma/client";
 import { buildPaginationOptions, type IQuery } from "../../interfaces/index.js";
 import { redisClient } from "../../lib/redis.js";
 import { prisma } from "../../lib/prisma.js";

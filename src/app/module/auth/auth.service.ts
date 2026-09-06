@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import httpStatus from "http-status";
 import type { SignOptions } from "jsonwebtoken";
 import config from "../../config/index.js";
-import { AuthProvider, Role, UserStatus } from "../../../generated/prisma/index.js";
+import { AuthProvider, Role, UserStatus } from "@prisma/client";
 import { googleClient } from "../../lib/googleAuth.js";
 import { prisma } from "../../lib/prisma.js";
 import { redisClient } from "../../lib/redis.js";
