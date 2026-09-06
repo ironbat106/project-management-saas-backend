@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Project Management SaaS Backend - B7A6 Assignment",
   "main": "dist/server.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "prisma generate && tsup",
