@@ -48,9 +48,8 @@ const createCheckoutSession = async (payload: ICreateCheckoutPayload, user: Requ
     mode: "subscription",
     customer: stripeCustomerId,
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${config.frontend_url}/billing/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${config.frontend_url}/billing/cancel`,
-    metadata: { organizationId: organization.id, plan: payload.plan },
+    success_url: `${config.backend_url}/billing/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${config.backend_url}/billing/cancel`,
   });
  
   await prisma.payment.create({

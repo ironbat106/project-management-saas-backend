@@ -24,6 +24,8 @@ export default {
  
   redis_url: process.env.REDIS_URL as string,
  
+  backend_url: process.env.BACKEND_URL as string,
+  
   stripe_secret_key: process.env.STRIPE_SECRET_KEY as string,
   stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET as string,
   stripe_pro_price_id: process.env.STRIPE_PRO_PRICE_ID as string,
