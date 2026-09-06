@@ -2,18 +2,15 @@
 
 A multi-tenant **Project Management SaaS** REST API built with Node.js, Express, TypeScript, PostgreSQL (Prisma), Redis, and Stripe. Organizations sign up, invite team members, organize work into Teams → Projects → Sprints → Tasks, and pay for premium plans through real Stripe subscription billing.
 
-Built for the B7A6 backend assignment — idea #8 from `idea-hub.md`.
-
 ---
 
 ## Live Links
 
 | | |
 |---|---|
-| **Live API** | `<your Vercel deployment URL>` |
-| **API Documentation (Postman)** | `<link to your shared Postman collection>` |
-| **Backend Repository** | `<this GitHub repo URL>` |
-| **Demo Video** | `<to be added>` |
+| **Live API** | `https://projectmanagementsaas-backend-kut7hbaxz-ironbat106s-projects.vercel.app` |
+| **API Documentation (Postman)** | `https://github.com/ironbat106/project-management-saas-backend/blob/main/PM-SaaS.postman_collection.json` |
+| **Backend Repository** | `https://github.com/ironbat106/project-management-saas-backend` |
 
 ---
 
@@ -215,8 +212,3 @@ See the Postman collection for the full list of 45+ endpoints with example reque
 - **Consistent responses**: every endpoint replies with `{ success, message, data }` (plus `meta` for paginated lists) on success, and `{ success: false, message, errors }` on failure.
 - **Redis is used twice, for two different reasons**: as a refresh-token blacklist (real logout for stateless JWTs) and as a short-lived cache for dashboard statistics.
 
----
-
-## License
-
-This project was built for educational purposes as part of a backend development assignment.
