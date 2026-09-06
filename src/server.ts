@@ -12,15 +12,14 @@ async function main() {
     await prisma.$connect();
     console.log("Database connected successfully");
 
-
     await redisClient.connect();
     console.log("Redis connected successfully");
 
+    const port = process.env.PORT || config.port;
 
-    server = app.listen(config.port, () => {
-      console.log(`Server is running on port ${config.port}`);
+    server = app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
     });
-
   } catch (error) {
     console.error("Failed to start the server:", error);
     process.exit(1);
@@ -28,7 +27,6 @@ async function main() {
 }
 
 main();
-
 
 process.on("unhandledRejection", (error) => {
   console.error("Unhandled Rejection detected, shutting down:", error);
@@ -39,7 +37,6 @@ process.on("unhandledRejection", (error) => {
     process.exit(1);
   }
 });
-
 
 process.on("uncaughtException", (error) => {
   console.error("Uncaught Exception detected, shutting down:", error);

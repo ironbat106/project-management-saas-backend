@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Project Management SaaS Backend - B7A6 Assignment",
   "main": "dist/server.js",
+  "type": "commonjs",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "prisma generate && tsup",
@@ -11,6 +12,9 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "seed": "tsx src/app/utils/seed.ts"
+  },
+  "engines": {
+    "node": "24.x"
   },
   "keywords": [],
   "author": "",
