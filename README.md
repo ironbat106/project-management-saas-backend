@@ -11,6 +11,8 @@ A multi-tenant **Project Management SaaS** REST API built with Node.js, Express,
 | **Live API** | `https://projectmanagementsaas-backend-kut7hbaxz-ironbat106s-projects.vercel.app` |
 | **API Documentation (Postman)** | `https://github.com/ironbat106/project-management-saas-backend/blob/main/PM-SaaS.postman_collection.json` |
 | **Backend Repository** | `https://github.com/ironbat106/project-management-saas-backend` |
+| **Admin Email** | `admin@pmsaas.com` |
+| **Admin Password** | `ChangeThisPassword123!` |
 
 ---
 
