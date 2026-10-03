@@ -45,25 +45,6 @@ app.get("/", (_req: Request, res: Response) => {
   });
 });
 
-// Temporary Stripe success redirect.
-// This can be replaced by a frontend page later.
-app.get("/billing/success", (req: Request, res: Response) => {
-  res.status(httpStatus.OK).json({
-    success: true,
-    message: "Payment completed successfully",
-    sessionId: req.query.session_id,
-  });
-});
-
-// Temporary Stripe cancel redirect.
-// This can be replaced by a frontend page later.
-app.get("/billing/cancel", (_req: Request, res: Response) => {
-  res.status(httpStatus.OK).json({
-    success: false,
-    message: "Payment was cancelled",
-  });
-});
-
 app.use("/api/v1", router);
 
 app.use(notFound);
